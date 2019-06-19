@@ -1,0 +1,118 @@
+@font-face{
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    src: url('../source-sans-pro/WOFF2/WOFF2/TTF/SourceSansPro-Regular.ttf.woff2') format('woff2'),
+         url('../source-sans-pro/WOFF2/WOFF/OTF/SourceSansPro-Regular.otf.woff') format('woff'),
+         url('../source-sans-pro/WOFF2/OTF/SourceSansPro-Regular.otf') format('opentype'),
+         url('../source-sans-pro/WOFF2/TTF/SourceSansPro-Regular.ttf') format('truetype');
+}
+
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both
+}
+
+a {
+	color: #375bc8;
+	text-decoration: underline
+}
+body {
+	position: relative;
+	width: 21cm;
+	height: 29.7cm;
+	margin: 0 auto;
+	color: #3A3A3A;
+    background: #FFFFFF;
+    /* color: #aaa;
+	background: #111; */
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 14px
+}
+header {
+	padding: 10px 0;
+	margin-bottom: 30px;
+}
+
+table.item-table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-bottom: 20px;
+	font-size: 12px
+}
+table.item-table tr:nth-child(2n-1) td {
+	background: #F5F5F5
+	/* background: #222 */
+}
+table.item-table th {
+	padding: 10px 15px;
+	border-bottom: 1px solid #606060;
+	white-space: nowrap;
+	text-align: left
+}
+table.item-table th.text-right {
+	text-align: right
+}
+table.item-table td {
+	padding: 10px 15px
+}
+table.item-table .invoice-sums {
+	text-align: right
+}
+footer {
+	color: #878686;
+	width: 100%;
+	border-top: 2px solid #878686;
+	padding: 8px 0
+}
+.text-right {
+	text-align: right
+}
+.text-blue {
+	color: #4053ea
+}
+.text-red {
+	color: #ea5340
+}
+.text-green {
+	color: #77b632
+}
+
+.name{
+    font-size: 1.5em;
+}
+
+#logo, #company, #title {
+	text-align: center;
+	margin-bottom: 20px
+}
+#title{
+	font-size: 2em;
+	border: solid 1px #606060;
+	border-width: 1px 0 1px 0;
+}
+#client{
+	width: 70%;
+	float: left;
+}
+#invoice-summary {
+	width: 30%;
+	float: right;
+	text-align: right
+}
+#invoice-summary table {
+	width: 99%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	text-align: right;
+	margin: 0 0 0 auto;
+	font-size: 12px
+}
+#invoice-summary table td {
+	width: auto;
+	margin: 0;
+	padding: 0 0 0.5em 0
+}
