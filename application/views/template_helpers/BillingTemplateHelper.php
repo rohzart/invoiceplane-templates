@@ -39,6 +39,26 @@ function highlight_by_status($section, $status){
     return (in_array($section, $sections) ? 'text-' . $color : '');
 }
 
+function print_array_safely($dilimiter, array $params){
+    $array = array();
+    for ($i = 0; $i < count($params); $i++) {
+        if($params[$i]){
+            array_push($array, $params[$i]);
+        }
+    }
+    echo implode($dilimiter, $array);
+}
+
+function print_array_key_value_safely($dilimiter, $key_value_dilimiter, array $params){
+    $array = array();
+    foreach ($params as $label => $value) {
+        if($value){
+            array_push($array, $label . $key_value_dilimiter . $value);
+        }
+    }
+    echo implode($dilimiter, $array);
+}
+
 $client_currency = (empty($custom_fields['client']['Currency']) ? '' : $custom_fields['client']['Currency']);
 $conversion_rate = getConversionRate($client_currency);
 

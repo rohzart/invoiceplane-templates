@@ -1,3 +1,43 @@
+<?php
+    $user_address_array = array(
+        htmlsc($invoice->user_address_1), 
+        htmlsc($invoice->user_address_2), 
+        htmlsc($invoice->user_city), 
+        htmlsc($invoice->user_state), 
+        htmlsc($invoice->user_zip),
+        get_country_name(trans('cldr'), $invoice->user_country)
+    );
+    $user_contact_array = array(
+        'Mobile' => $invoice->user_mobile, 
+        trans('phone_abbr') => htmlsc($invoice->user_phone), 
+        trans('fax_abbr') => htmlsc($invoice->user_fax), 
+        'Email' => $invoice->user_email
+    );
+    $user_tax_details_array = array(
+        // CUSTOM FIELD
+        'PAN' => htmlsc($custom_fields['user']['PAN']),
+        // /CUSTOM FIELD
+        trans('vat_id_short') => $invoice->user_vat_id,
+        trans('tax_code_short') => $invoice->user_tax_code
+    );
+    $client_address_array = array(
+        htmlsc($invoice->client_address_1), 
+        htmlsc($invoice->client_address_2), 
+        htmlsc($invoice->client_city), 
+        htmlsc($invoice->client_state), 
+        htmlsc($invoice->client_zip),
+        get_country_name(trans('cldr'), $invoice->client_country)
+    );
+    $client_contact_array = array(
+        'Mobile' => $invoice->client_mobile,
+        trans('phone_abbr') => htmlsc($invoice->client_phone),
+        'Email' => $invoice->client_email
+    );
+    $client_tax_details_array = array(
+        trans('vat_id_short') => $invoice->client_vat_id, 
+        trans('tax_code_short') => $invoice->client_tax_code
+    );
+?>
 <!DOCTYPE html>
 <html lang="<?php _trans('cldr'); ?>">
 <head>
@@ -21,60 +61,16 @@
 
         <div class="address">
             Address: 
-            <?php 
-            if ($invoice->user_address_1) {
-                echo htmlsc($invoice->user_address_1);
-            }
-            if ($invoice->user_address_2) {
-                echo ', ' . htmlsc($invoice->user_address_2);
-            }
-            if ($invoice->user_city) {
-                echo ', ' . htmlsc($invoice->user_city);
-            }
-            if ($invoice->user_state) {
-                echo ', ' . htmlsc($invoice->user_state);
-            }
-            if ($invoice->user_zip) {
-                echo ', ' . htmlsc($invoice->user_zip);
-            }
-            if ($invoice->user_country) {
-                echo ', ' . get_country_name(trans('cldr'), $invoice->user_country);
-            }
-            ?>
+            <?php print_array_safely(", ", $user_address_array); ?>
         </div>
 
         <div class="contact">
-            <?php 
-            if ($invoice->user_mobile) {
-                echo 'Mobile: ' . $invoice->user_mobile;
-            }
-            if ($invoice->user_phone) {
-                echo ' | ' . trans('phone_abbr') . ': ' . htmlsc($invoice->user_phone);
-            }
-            if ($invoice->user_fax) {
-                echo ' | ' . trans('fax_abbr') . ': ' . htmlsc($invoice->user_fax);
-            }
-            if ($invoice->user_email) {
-                echo ' | Email: ' . $invoice->user_email;
-            }
-            ?>
+            <?php print_array_key_value_safely(' | ', ': ', $user_contact_array); ?>
         </div>
 
         <div class="tax-id">
             <i>
-            <?php 
-            // CUSTOM FIELD
-            if ($custom_fields['user']['PAN']) {
-                echo '<div> PAN: ' . htmlsc($custom_fields['user']['PAN']) . '</div>';
-            }
-            // /CUSTOM FIELD
-            if ($invoice->user_vat_id) {
-                echo '<div>' . trans('vat_id_short') . ': ' . $invoice->user_vat_id . '</div>';
-            }
-            if ($invoice->user_tax_code) {
-                echo '<div>' . trans('tax_code_short') . ': ' . $invoice->user_tax_code . '</div>';
-            }    
-            ?>
+            <?php print_array_key_value_safely(' | ', ': ', $user_tax_details_array); ?>
             </i>
         </div>
 
@@ -95,52 +91,16 @@
         </div>
         
         <div class="address">
-            <?php 
-            if ($invoice->client_address_1) {
-                echo htmlsc($invoice->client_address_1);
-            }
-            if ($invoice->client_address_2) {
-                echo ', ' . htmlsc($invoice->client_address_2);
-            }
-            if ($invoice->client_city) {
-                echo ', ' . htmlsc($invoice->client_city);
-            }
-            if ($invoice->client_state) {
-                echo ', ' . htmlsc($invoice->client_state);
-            }
-            if ($invoice->client_zip) {
-                echo ', ' . htmlsc($invoice->client_zip);
-            }
-            if ($invoice->client_country) {
-                echo ', ' . get_country_name(trans('cldr'), $invoice->client_country);
-            }
-            ?>
+            <?php print_array_safely(", ", $client_address_array); ?>
         </div>
 
         <div class="contact">
-            <?php 
-            if ($invoice->client_mobile) {
-                echo 'Mobile: ' . $invoice->client_mobile;
-            }
-            if ($invoice->client_phone) {
-                echo ' | ' . trans('phone_abbr') . ': ' . htmlsc($invoice->client_phone);
-            }
-            if ($invoice->client_email) {
-                echo ' | Email: ' . $invoice->client_email;
-            } 
-            ?>
+            <?php print_array_key_value_safely(' | ', ': ', $client_contact_array); ?>
         </div> 
 
         <div class="tax-id">
             <i>
-            <?php
-            if ($invoice->client_vat_id) {
-                echo '<div>' . trans('vat_id_short') . ': ' . $invoice->client_vat_id . '</div>';
-            }
-            if ($invoice->client_tax_code) {
-                echo '<div>' . trans('tax_code_short') . ': ' . $invoice->client_tax_code . '</div>';
-            }
-            ?>  
+            <?php print_array_key_value_safely(' | ', ': ', $client_tax_details_array); ?>
             </i>
         </div>
 
@@ -313,6 +273,9 @@
             <?php echo nl2br(htmlsc($invoice->invoice_terms)); ?>
         </div>
     <?php endif; ?>
+    <div id="thank-you">
+        Thank you
+    </div>
 </footer>
 
 </body>

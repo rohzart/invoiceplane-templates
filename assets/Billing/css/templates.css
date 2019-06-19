@@ -116,3 +116,8 @@ footer {
 	margin: 0;
 	padding: 0 0 0.5em 0
 }
+#thank-you{
+	font-weight: 600;
+	font-size: 16px;
+	text-align: center;
+}
