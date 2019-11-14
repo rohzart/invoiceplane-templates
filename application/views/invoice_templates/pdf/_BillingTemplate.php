@@ -20,6 +20,20 @@
         trans('vat_id_short') => $invoice->user_vat_id,
         trans('tax_code_short') => $invoice->user_tax_code
     );
+    // CUSTOM FIELD
+    if ($payment_method->payment_method_id == 3){
+        $user_bank_details_array  = array(
+            'Bank Name' => htmlsc($custom_fields['user']['Bank Name']),
+            'Bank Branch State' => htmlsc($custom_fields['user']['Bank Branch State']),
+            'Bank Branch City' => htmlsc($custom_fields['user']['Bank Branch City']),
+            'Bank Branch Name' => htmlsc($custom_fields['user']['Bank Branch Name']),
+            'Account Number' => htmlsc($custom_fields['user']['Account Number']),
+            'IFSC' => htmlsc($custom_fields['user']['IFSC']),
+            'BIC/Swift Code' => htmlsc($custom_fields['user']['BIC/Swift Code']),
+            'Currency to be sent in' => htmlsc($custom_fields['user']['Currency to be sent in'])
+        );
+    }
+    // /CUSTOM FIELD
     $client_address_array = array(
         htmlsc($invoice->client_address_1), 
         htmlsc($invoice->client_address_2), 
@@ -267,8 +281,14 @@
 </main>
 
 <footer>
+    <?php if ($user_bank_details_array) : ?>
+        <div id="bank_details">
+            <b>My bank details are as below:</b><br/>
+            <?php print_array_key_value_safely(' <br /> ', ': ', $user_bank_details_array); ?>
+        </div>
+    <?php endif; ?>
     <?php if ($invoice->invoice_terms) : ?>
-        <div class="notes">
+        <div id="notes">
             <b><?php _trans('terms'); ?></b><br/>
             <?php echo nl2br(htmlsc($invoice->invoice_terms)); ?>
         </div>

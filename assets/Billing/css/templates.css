@@ -116,7 +116,14 @@ footer {
 	margin: 0;
 	padding: 0 0 0.5em 0
 }
+#bank_details, #notes{
+	padding: 10px;
+	padding-left: 65%;
+	font-size: 12px
+}
 #thank-you{
+	padding: 10px;
+	border-top: solid 1px #606060;
 	font-weight: 600;
 	font-size: 16px;
 	text-align: center;
