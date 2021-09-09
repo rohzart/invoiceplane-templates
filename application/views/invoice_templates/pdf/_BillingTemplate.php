@@ -277,7 +277,9 @@
         </tr>
         </tbody>
     </table>
-
+    <div id="attribution" class="text-right">
+        <?php echo conversion_api_attribution($conversion_rate); ?>
+    </div>
 </main>
 
 <footer>

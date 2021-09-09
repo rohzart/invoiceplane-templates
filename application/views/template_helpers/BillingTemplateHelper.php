@@ -1,7 +1,6 @@
 <?php
 function getConversionRate($client_currency){
-    // $currency_api = 'https://api.exchangerate-api.com/v4/latest/USD';
-    $currency_api = 'https://api.exchangeratesapi.io/latest?base=USD';
+    $currency_api = 'https://open.er-api.com/v6/latest/USD';
     if(!empty($client_currency)){
         $response_json = file_get_contents($currency_api);
         if(false !== $response_json) {
@@ -10,6 +9,12 @@ function getConversionRate($client_currency){
         }
     }
     return 0;
+}
+
+function conversion_api_attribution($conversion_rate){
+    if(!($conversion_rate == 1 || $conversion_rate == 0)){
+        return '<a href="https://www.exchangerate-api.com">Rates By Exchange Rate API</a>';
+    }
 }
 
 function format_currency_by_client_setting($client_currency, $conversion_rate, $amount) {
