@@ -33,7 +33,7 @@ Edit/Update "Currency" custom field with the currency code you wish to have the 
 
 ### Under **User** table
 
-*PAN* positioned in section *Taxes Information*
+**PAN** positioned in section *Taxes Information*
 
 **Bank Name** positioned in section *Custom Fields*
 
