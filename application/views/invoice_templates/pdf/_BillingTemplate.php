@@ -283,7 +283,7 @@
 </main>
 
 <footer>
-    <?php if ($user_bank_details_array) : ?>
+    <?php if ($payment_method->payment_method_id == 3) : ?>
         <div id="bank_details">
             <b>My bank details are as below:</b><br/>
             <?php print_array_key_value_safely(' <br /> ', ': ', $user_bank_details_array); ?>
