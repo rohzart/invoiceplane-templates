@@ -283,12 +283,15 @@
 </main>
 
 <footer>
-    <?php if ($payment_method->payment_method_id == 3) : ?>
-        <div id="bank_details">
-            <b>My bank details are as below:</b><br/>
-            <?php print_array_key_value_safely(' <br /> ', ': ', $user_bank_details_array); ?>
-        </div>
+    <?php if ($payment_method): ?>
+        <?php if ($payment_method->payment_method_name == 'Bank Transfer') : ?>
+            <div id="bank_details">
+                <b>My bank details are as below:</b><br/>
+                <?php print_array_key_value_safely(' <br /> ', ': ', $user_bank_details_array); ?>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
+
     <?php if ($invoice->invoice_terms) : ?>
         <div id="notes">
             <b><?php _trans('terms'); ?></b><br/>
