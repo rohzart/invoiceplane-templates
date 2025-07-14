@@ -51,6 +51,7 @@ Edit/Update "Currency" custom field with the currency code you wish to have the 
 
 **Currency to be sent in** positioned in section *Custom Fields*
 
+**PayPal.Me Link** positioned in section *Custom Fields*
 
 ## Code Snippets
 

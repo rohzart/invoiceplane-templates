@@ -21,7 +21,7 @@
         trans('tax_code_short') => $invoice->user_tax_code
     );
     // CUSTOM FIELD
-    if ($payment_method->payment_method_id == 3){
+    if ($payment_method->payment_method_name == 'Bank Transfer'){
         $user_bank_details_array  = array(
             'Bank Name' => htmlsc($custom_fields['user']['Bank Name']),
             'Bank Branch State' => htmlsc($custom_fields['user']['Bank Branch State']),
@@ -32,6 +32,10 @@
             'BIC/Swift Code' => htmlsc($custom_fields['user']['BIC/Swift Code']),
             'Currency to be sent in' => htmlsc($custom_fields['user']['Currency to be sent in'])
         );
+    }
+    // CUSTOM FIELD
+    if ($payment_method->payment_method_name == 'PayPal'){
+        $paypal_payment_link = htmlsc($custom_fields['user']['PayPal.Me Link']) . str_replace(' ', '', format_currency_by_client_setting($client_currency, $conversion_rate, $invoice->invoice_balance));
     }
     // /CUSTOM FIELD
     $client_address_array = array(
@@ -288,6 +292,12 @@
             <div id="bank_details">
                 <b>My bank details are as below:</b><br/>
                 <?php print_array_key_value_safely(' <br /> ', ': ', $user_bank_details_array); ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($payment_method->payment_method_name == 'PayPal') : ?>
+            <div id="bank_details">
+                <b>PayPal Payment Link:</b><br/>
+                <a href="<?php echo $paypal_payment_link; ?>" target="_blank">Click here</a> to pay via PayPal.
             </div>
         <?php endif; ?>
     <?php endif; ?>
