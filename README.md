@@ -25,6 +25,11 @@ Select these templates in the invoice or quote settings under system settings. D
 
 Edit/Update "Currency" custom field with the currency code you wish to have the generated templates use.
 
+## New Payment Methods
+
+- PayPal
+- Bank Transfer - US
+
 ## Custom fields
 
 ### Under **Client** table
@@ -52,6 +57,20 @@ Edit/Update "Currency" custom field with the currency code you wish to have the 
 **Currency to be sent in** positioned in section *Custom Fields*
 
 **PayPal.Me Link** positioned in section *Custom Fields*
+
+**US Bank Name** positioned in section *Custom Fields*
+
+**US Account Number** positioned in section *Custom Fields*
+
+**US Beneficiary Address** positioned in section *Custom Fields*
+
+**US ACH Routing Number** positioned in section *Custom Fields*
+
+**US FEDWIRE Routing Number** positioned in section *Custom Fields*
+
+**US Account Type** positioned in section *Custom Fields*
+
+**US Account Name** positioned in section *Custom Fields*
 
 ## Code Snippets
 
