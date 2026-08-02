@@ -46,6 +46,17 @@
         );
     }
     // CUSTOM FIELD
+    if ($payment_method->payment_method_name == 'Bank Transfer (AU)'){
+        $user_au_bank_details_array  = array(
+            'Bank Name' => htmlsc($custom_fields['user']['AU Bank Name']),
+            'Account Number' => htmlsc($custom_fields['user']['AU Account Number']),
+            'Beneficiary Address' => htmlsc($custom_fields['user']['AU Beneficiary Address']),
+            'Routing Number' => htmlsc($custom_fields['user']['AU Routing Number']),
+            'Account Type' => htmlsc($custom_fields['user']['AU Account Type']),
+            'Account Name' => htmlsc($custom_fields['user']['AU Account Name']),
+        );
+    }
+    // CUSTOM FIELD
     if ($payment_method->payment_method_name == 'PayPal'){
         $paypal_payment_link = htmlsc($custom_fields['user']['PayPal.Me Link']) . str_replace(' ', '', format_currency_by_client_setting($client_currency, $conversion_rate, $invoice->invoice_balance));
     }
@@ -310,6 +321,12 @@
             <div id="bank_details">
                 <b>My bank details are as below:</b><br/>
                 <?php print_array_key_value_safely(' <br /> ', ': ', $user_us_bank_details_array); ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($payment_method->payment_method_name == 'Bank Transfer (AU)') : ?>
+            <div id="bank_details">
+                <b>My bank details are as below:</b><br/>
+                <?php print_array_key_value_safely(' <br /> ', ': ', $user_au_bank_details_array); ?>
             </div>
         <?php endif; ?>
         <?php if ($payment_method->payment_method_name == 'PayPal') : ?>

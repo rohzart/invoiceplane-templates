@@ -40,6 +40,8 @@ Edit/Update "Currency" custom field with the currency code you wish to have the 
 
 **PAN** positioned in section *Taxes Information*
 
+#### Bank details
+
 **Bank Name** positioned in section *Custom Fields*
 
 **Bank Branch State** positioned in section *Custom Fields*
@@ -58,6 +60,8 @@ Edit/Update "Currency" custom field with the currency code you wish to have the 
 
 **PayPal.Me Link** positioned in section *Custom Fields*
 
+#### US Bank details
+
 **US Bank Name** positioned in section *Custom Fields*
 
 **US Account Number** positioned in section *Custom Fields*
@@ -71,6 +75,20 @@ Edit/Update "Currency" custom field with the currency code you wish to have the 
 **US Account Type** positioned in section *Custom Fields*
 
 **US Account Name** positioned in section *Custom Fields*
+
+#### AU Bank details
+
+**AU Bank Name** positioned in section *Custom Fields*
+
+**AU Account Number** positioned in section *Custom Fields*
+
+**AU Beneficiary Address** positioned in section *Custom Fields*
+
+**AU Routing Number** positioned in section *Custom Fields* 
+
+**AU Account Type** positioned in section *Custom Fields*
+
+**AU Account Name** positioned in section *Custom Fields*
 
 ## Code Snippets
 
