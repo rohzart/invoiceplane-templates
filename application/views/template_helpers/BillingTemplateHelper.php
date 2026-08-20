@@ -66,5 +66,5 @@ function print_array_key_value_safely($dilimiter, $key_value_dilimiter, array $p
 
 $client_currency = (empty($custom_fields['client']['Currency']) ? '' : $custom_fields['client']['Currency']);
 $conversion_rate = getConversionRate($client_currency);
-
+// $custom_fields['invoice']['Conversion Rate'];
 ?>
