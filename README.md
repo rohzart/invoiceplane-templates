@@ -4,10 +4,12 @@ Custom templates to use with InvoicePlane with a hack to generate the templates 
 
 This means that you'll still feed in the cost/price values in USD.
 
+Custom invoice field is used to save the conversion rate along with the invoice. The conversion rate can also be manually entered.
+
 **Known issues** : 
 
-* No caching of exchange rates.
-* Therefore each time the template script is run, for the invoice generated, it fetches and uses the latest exchange rate provided by the api.
+* ~~No caching of exchange rates.~~
+* ~~Therefore each time the template script is run, for the invoice generated, it fetches and uses the latest exchange rate provided by the api.~~
 
 ## Possible bug in IP
 
@@ -31,6 +33,10 @@ Edit/Update "Currency" custom field with the currency code you wish to have the 
 - Bank Transfer - US
 
 ## Custom fields
+
+### User **Invoice** table
+
+**Conversion Rate** positioned in section *Custom Fields*
 
 ### Under **Client** table
 
