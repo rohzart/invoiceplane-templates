@@ -664,7 +664,8 @@ if ($default_custom) {
 
 <!-- // CUSTOM -->
 <?php 
-include_once(dirname(__DIR__, 3) . '/views/template_helpers/BillingTemplateHelper.php');
+// include_once(dirname(__DIR__, 3) . '/views/template_helpers/BillingTemplateHelper.php');
+include_once(dirname(__DIR__, 1) . '/controllers/ConversionHelper.php');
 
 $this->load->model([
             'custom_fields/mdl_custom_fields',
