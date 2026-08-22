@@ -1,4 +1,4 @@
-<?php include_once(dirname(__DIR__) . '../../template_helpers/BillingTemplateHelper.php'); ?>
+<?php include_once(__DIR__ . '/../../template_helpers/BillingTemplateHelper.php'); ?>
 <!DOCTYPE html>
 <html lang="<?php _trans('cldr'); ?>">
 <head>

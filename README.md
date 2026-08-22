@@ -1,109 +1,95 @@
 # invoiceplane-templates
 
-Custom templates to use with InvoicePlane with a hack to generate the templates in a set currency.
+Custom invoice/quote templates for [InvoicePlane](https://invoiceplane.com) with a hack to render the generated documents in a client-specific currency.
 
-This means that you'll still feed in the cost/price values in USD.
+Costs/prices are still entered in **USD**; templates convert and display them in the currency set on each client.
 
-Custom invoice field is used to save the conversion rate along with the invoice. The conversion rate can also be manually entered.
+The conversion rate is stored on the invoice via a custom field ("Conversion Rate"), so a saved invoice always shows the rate that was used at billing time, even if rates change later. The rate can also be entered manually.
 
-**Known issues** : 
+## Compatibility
 
-* ~~No caching of exchange rates.~~
-* ~~Therefore each time the template script is run, for the invoice generated, it fetches and uses the latest exchange rate provided by the api.~~
-
-## Possible bug in IP
-
-* All other previously created custom fields' data is lost after creating and saving new custom fields. BACKUP database.
+These files **override InvoicePlane core files** (notably `application/modules/invoices/views/view.php`). They were built against a specific InvoicePlane release — verify the version you run before installing, and re-check `view.php` after any InvoicePlane upgrade, since updates will overwrite it.
 
 ## Installation
 
-1. BACKUP database
-2. Add the below listed custom fields via settings
-3. Place the copy over the assets and application folders
+1. **BACKUP your database** (creating/saving custom fields has historically wiped other custom fields' data in some IP versions).
+2. Add the custom fields listed below via IP settings.
+3. Copy the `assets` and `application` folders over your InvoicePlane installation, merging with existing folders.
 
 ## Instructions
 
-Select these templates in the invoice or quote settings under system settings. Default templates are prefixed with "InvoicePlane". These are prefixed with "Billing Template" or "Quote Template".
+1. Select the templates under invoice/quote system settings. Stock IP templates are prefixed "InvoicePlane"; these are prefixed **"Billing Template"** / **"Quote Template"**.
+2. Set the **Currency** custom field on each client to the ISO currency code you want their documents rendered in (e.g. `EUR`, `INR`, `AUD`).
 
-Edit/Update "Currency" custom field with the currency code you wish to have the generated templates use.
+### Conversion rate behaviour
 
-## New Payment Methods
+* When viewing an invoice in the admin panel, a helper box shows the current USD → client-currency rate fetched from [open.er-api.com](https://open.er-api.com) (Exchange Rate API). Copy it into the invoice's **Conversion Rate** custom field before sending.
+* Rates are cached for 12 hours per currency to avoid hitting the API on every page load.
+* If no rate is available (API down, unknown currency code), templates fall back to displaying amounts in USD.
 
-- PayPal
-- Bank Transfer - US
+## Payment methods supported
+
+Templates print matching bank/payment details based on the invoice's payment method:
+
+* PayPal (uses the user's **PayPal.Me Link** custom field)
+* Bank Transfer (India: IFSC / BIC-Swift)
+* Bank Transfer - US (ACH / FEDWIRE)
+* Bank Transfer - AU
 
 ## Custom fields
 
 ### User **Invoice** table
 
-**Conversion Rate** positioned in section *Custom Fields*
+| Field | Section |
+|---|---|
+| Conversion Rate | Custom Fields |
 
 ### Under **Client** table
 
-**Currency** positioned in section *Custom Fields*
+| Field | Section |
+|---|---|
+| Currency | Custom Fields |
 
 ### Under **User** table
 
-**PAN** positioned in section *Taxes Information*
+| Field | Section |
+|---|---|
+| PAN | Taxes Information |
 
-#### Bank details
+#### Bank details (India)
 
-**Bank Name** positioned in section *Custom Fields*
-
-**Bank Branch State** positioned in section *Custom Fields*
-
-**Bank Branch City** positioned in section *Custom Fields*
-
-**Bank Branch Name** positioned in section *Custom Fields*
-
-**Account Number** positioned in section *Custom Fields*
-
-**IFSC** positioned in section *Custom Fields*
-
-**BIC/Swift Code** positioned in section *Custom Fields*
-
-**Currency to be sent in** positioned in section *Custom Fields*
-
-**PayPal.Me Link** positioned in section *Custom Fields*
+Bank Name, Bank Branch State, Bank Branch City, Bank Branch Name, Account Number, IFSC, BIC/Swift Code, Currency to be sent in, PayPal.Me Link — all in section *Custom Fields*
 
 #### US Bank details
 
-**US Bank Name** positioned in section *Custom Fields*
-
-**US Account Number** positioned in section *Custom Fields*
-
-**US Beneficiary Address** positioned in section *Custom Fields*
-
-**US ACH Routing Number** positioned in section *Custom Fields*
-
-**US FEDWIRE Routing Number** positioned in section *Custom Fields*
-
-**US Account Type** positioned in section *Custom Fields*
-
-**US Account Name** positioned in section *Custom Fields*
+US Bank Name, US Account Number, US Beneficiary Address, US ACH Routing Number, US FEDWIRE Routing Number, US Account Type, US Account Name — all in section *Custom Fields*
 
 #### AU Bank details
 
-**AU Bank Name** positioned in section *Custom Fields*
+AU Bank Name, AU Account Number, AU Beneficiary Address, AU Routing Number, AU Account Type, AU Account Name — all in section *Custom Fields*
 
-**AU Account Number** positioned in section *Custom Fields*
+## Template files
 
-**AU Beneficiary Address** positioned in section *Custom Fields*
+```
+application/views/
+├── template_helpers/BillingTemplateHelper.php   # shared formatting helpers
+├── invoice_templates/pdf/BillingTemplate_{initial,overdue,paid}.php
+├── invoice_templates/pdf/_BillingTemplate.php   # shared invoice PDF markup
+├── invoice_templates/public/BillingTemplate_Web.php
+├── quote_templates/pdf/QuoteTemplate.php
+└── quote_templates/public/QuoteTemplate_Web.php
+```
 
-**AU Routing Number** positioned in section *Custom Fields* 
-
-**AU Account Type** positioned in section *Custom Fields*
-
-**AU Account Name** positioned in section *Custom Fields*
+Status variants (`initial` / `overdue` / `paid`) are thin wrappers that set `$invoice_status` and include `_BillingTemplate.php`; colour highlighting of dates/amounts is driven by that variable.
 
 ## Code Snippets
 
-This will help list all the content of an array (in this case, $invoice)
+Dump all contents of an array (e.g. `$invoice`) while debugging a template:
 
-```
+```php
 <!-- TEST -->
-<pre><?php 
-print_r($invoice); 
-?></pre>
+<pre><?php print_r($invoice); ?></pre>
 <!-- /TEST -->
 ```
+
+Remove these blocks before sending documents to clients.

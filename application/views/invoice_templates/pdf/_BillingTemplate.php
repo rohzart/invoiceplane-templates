@@ -20,9 +20,9 @@
         trans('vat_id_short') => $invoice->user_vat_id,
         trans('tax_code_short') => $invoice->user_tax_code
     );
-    // CUSTOM FIELD
-    if ($payment_method->payment_method_name == 'Bank Transfer'){
-        $user_bank_details_array  = array(
+    // CUSTOM FIELD: bank details, keyed by payment method name.
+    $user_bank_details_by_method = array(
+        'Bank Transfer' => array(
             'Bank Name' => htmlsc($custom_fields['user']['Bank Name']),
             'Bank Branch State' => htmlsc($custom_fields['user']['Bank Branch State']),
             'Bank Branch City' => htmlsc($custom_fields['user']['Bank Branch City']),
@@ -30,12 +30,9 @@
             'Account Number' => htmlsc($custom_fields['user']['Account Number']),
             'IFSC' => htmlsc($custom_fields['user']['IFSC']),
             'BIC/Swift Code' => htmlsc($custom_fields['user']['BIC/Swift Code']),
-            'Currency to be sent in' => htmlsc($custom_fields['user']['Currency to be sent in'])
-        );
-    }
-    // CUSTOM FIELD
-    if ($payment_method->payment_method_name == 'Bank Transfer (US)'){
-        $user_us_bank_details_array  = array(
+            'Currency to be sent in' => htmlsc($custom_fields['user']['Currency to be sent in']),
+        ),
+        'Bank Transfer (US)' => array(
             'Bank Name' => htmlsc($custom_fields['user']['US Bank Name']),
             'Account Number' => htmlsc($custom_fields['user']['US Account Number']),
             'Beneficiary Address' => htmlsc($custom_fields['user']['US Beneficiary Address']),
@@ -43,22 +40,26 @@
             'FEDWIRE Routing Number' => htmlsc($custom_fields['user']['US FEDWIRE Routing Number']),
             'Account Type' => htmlsc($custom_fields['user']['US Account Type']),
             'Account Name' => htmlsc($custom_fields['user']['US Account Name']),
-        );
-    }
-    // CUSTOM FIELD
-    if ($payment_method->payment_method_name == 'Bank Transfer (AU)'){
-        $user_au_bank_details_array  = array(
+        ),
+        'Bank Transfer (AU)' => array(
             'Bank Name' => htmlsc($custom_fields['user']['AU Bank Name']),
             'Account Number' => htmlsc($custom_fields['user']['AU Account Number']),
             'Beneficiary Address' => htmlsc($custom_fields['user']['AU Beneficiary Address']),
             'Routing Number' => htmlsc($custom_fields['user']['AU Routing Number']),
             'Account Type' => htmlsc($custom_fields['user']['AU Account Type']),
             'Account Name' => htmlsc($custom_fields['user']['AU Account Name']),
-        );
-    }
+        ),
+    );
+    $payment_method_name = $payment_method ? $payment_method->payment_method_name : null;
+    $user_bank_details_array = isset($user_bank_details_by_method[$payment_method_name])
+        ? $user_bank_details_by_method[$payment_method_name]
+        : null;
     // CUSTOM FIELD
-    if ($payment_method->payment_method_name == 'PayPal'){
-        $paypal_payment_link = htmlsc($custom_fields['user']['PayPal.Me Link']) . str_replace(' ', '', format_currency_by_client_setting($client_currency, $conversion_rate, $invoice->invoice_balance));
+    if ($payment_method_name == 'PayPal') {
+        $paypal_payment_link = build_paypal_payment_link(
+            $custom_fields['user']['PayPal.Me Link'],
+            format_currency_by_client_setting($client_currency, $conversion_rate, $invoice->invoice_balance)
+        );
     }
     // /CUSTOM FIELD
     $client_address_array = array(
@@ -310,31 +311,17 @@
 </main>
 
 <footer>
-    <?php if ($payment_method): ?>
-        <?php if ($payment_method->payment_method_name == 'Bank Transfer') : ?>
-            <div id="bank_details">
-                <b>My bank details are as below:</b><br/>
-                <?php print_array_key_value_safely(' <br /> ', ': ', $user_bank_details_array); ?>
-            </div>
-        <?php endif; ?>
-        <?php if ($payment_method->payment_method_name == 'Bank Transfer (US)') : ?>
-            <div id="bank_details">
-                <b>My bank details are as below:</b><br/>
-                <?php print_array_key_value_safely(' <br /> ', ': ', $user_us_bank_details_array); ?>
-            </div>
-        <?php endif; ?>
-        <?php if ($payment_method->payment_method_name == 'Bank Transfer (AU)') : ?>
-            <div id="bank_details">
-                <b>My bank details are as below:</b><br/>
-                <?php print_array_key_value_safely(' <br /> ', ': ', $user_au_bank_details_array); ?>
-            </div>
-        <?php endif; ?>
-        <?php if ($payment_method->payment_method_name == 'PayPal') : ?>
-            <div id="bank_details">
-                <b>PayPal Payment Link:</b><br/>
-                <a href="<?php echo $paypal_payment_link; ?>" target="_blank">Click here</a> to pay via PayPal.
-            </div>
-        <?php endif; ?>
+    <?php if ($payment_method && $user_bank_details_array) : ?>
+        <div id="bank_details">
+            <b>My bank details are as below:</b><br/>
+            <?php print_array_key_value_safely(' <br /> ', ': ', $user_bank_details_array); ?>
+        </div>
+    <?php endif; ?>
+    <?php if ($payment_method_name == 'PayPal' && $paypal_payment_link) : ?>
+        <div id="bank_details">
+            <b>PayPal Payment Link:</b><br/>
+            <a href="<?php echo $paypal_payment_link; ?>" target="_blank" rel="noopener">Click here</a> to pay via PayPal.
+        </div>
     <?php endif; ?>
 
     <?php if ($invoice->invoice_terms) : ?>

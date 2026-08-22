@@ -664,7 +664,6 @@ if ($default_custom) {
 
 <!-- // CUSTOM -->
 <?php 
-// include_once(dirname(__DIR__, 3) . '/views/template_helpers/BillingTemplateHelper.php');
 include_once(dirname(__DIR__, 1) . '/controllers/ConversionHelper.php');
 
 $this->load->model([
@@ -674,26 +673,29 @@ $this->load->model([
         ]);
 
 $client_custom_values = $this->mdl_client_custom->get_by_clid($invoice->client_id);
-// print_r($client_custom_values);
 
 $client_currency = '';
-$conversion_rate = 1;
+$conversion_rate = null;
 foreach ($client_custom_values as $custom_value) {
     if ($custom_value->custom_field_label == 'Currency') {
         $client_currency = $custom_value->client_custom_fieldvalue;
         $conversion_rate = getConversionRate($client_currency);
-        // $custom_values[$custom_field->custom_field_id] = $conversion_rate;
         break;
     }
 }
-
-// print_r($custom_values);
-// print_r($conversion_rate);
 ?>
 <div class="col-xs-12">
     <div class="alert alert-info small">
-        <i class="fa fa-info-circle"></i>&nbsp;Copy this conversion rate to the custom field "Currency Conversion Rate" in the invoice. <br>
-        <pre><?php print_r($conversion_rate); ?></pre>
+        <i class="fa fa-info-circle"></i>&nbsp;
+        <?php
+        if ($conversion_rate !== null) {
+            echo 'Conversion rate from USD to ' . htmlsc($client_currency) . ': <b>' . htmlsc($conversion_rate) . '</b>'
+                . ' &mdash; copy this to the invoice custom field "Conversion Rate".';
+        } else {
+            echo 'Could not fetch a conversion rate for currency "' . htmlsc($client_currency) . '".'
+                . ' Enter the rate manually in the invoice custom field "Conversion Rate", or leave it empty to bill in USD.';
+        }
+        ?>
     </div>
 </div>
 <!-- // /CUSTOM -->

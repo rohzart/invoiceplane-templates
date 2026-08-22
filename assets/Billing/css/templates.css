@@ -3,10 +3,10 @@
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    src: url('../source-sans-pro/WOFF2/WOFF2/TTF/SourceSansPro-Regular.ttf.woff2') format('woff2'),
-         url('../source-sans-pro/WOFF2/WOFF/OTF/SourceSansPro-Regular.otf.woff') format('woff'),
-         url('../source-sans-pro/WOFF2/OTF/SourceSansPro-Regular.otf') format('opentype'),
-         url('../source-sans-pro/WOFF2/TTF/SourceSansPro-Regular.ttf') format('truetype');
+    src: url('../source-sans-pro/WOFF2/TTF/SourceSansPro-Regular.ttf.woff2') format('woff2'),
+         url('../source-sans-pro/WOFF/TTF/SourceSansPro-Regular.ttf.woff') format('woff'),
+         url('../source-sans-pro/OTF/SourceSansPro-Regular.otf') format('opentype'),
+         url('../source-sans-pro/TTF/SourceSansPro-Regular.ttf') format('truetype');
 }
 
 .clearfix:after {
